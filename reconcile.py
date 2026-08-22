@@ -14,10 +14,6 @@ def valid_input(transactions, balance):
     error_str = ""
     error_bool = True
 
-    if len(transactions) != len(balance):
-        error_str = "The number of unique dates in the transactions and balances files do not match. Transactions file has length {0} and balances file has length {1}.".format(len(transactions), len(balance))
-        error_bool = False
-
     for date in transactions:
         if date not in balance:
             error_str += " The date {date} is present in the transactions file but not in the balances file.".format(date=date)

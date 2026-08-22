@@ -4,8 +4,6 @@ const reconcileBtn = document.getElementById("reconcile-btn");
 const errorBanner = document.getElementById("error-banner");
 const results = document.getElementById("results");
 
-let latestData = null;
-
 function updateButtonState() {
   reconcileBtn.disabled = !(transactionsInput.files.length && balancesInput.files.length);
 }
@@ -70,7 +68,6 @@ reconcileBtn.addEventListener("click", async () => {
       return;
     }
 
-    latestData = data;
     renderResults(data);
   } catch (err) {
     showError(`Could not read or process files: ${err.message}`);

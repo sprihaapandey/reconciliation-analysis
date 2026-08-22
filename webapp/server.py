@@ -2,8 +2,7 @@
 Light web server for the reconciliation app.
 
 This server does no reconciliation math itself — every computed number
-comes from calling straight into ../reconcile.py, so the web app can never
-drift out of sync with the logic main.py uses on the command line.
+comes from calling straight into ../reconcile.py.
 """
 import csv
 import io
@@ -36,7 +35,7 @@ class ReconciliationError(Exception):
 
 
 def parse_transactions_csv(text):
-    """Mirrors main.py's read_transactions, but reads from an in-memory string."""
+    """Reads transactions from an in-memory string."""
     reader = csv.DictReader(io.StringIO(text))
     if reader.fieldnames is None or "date" not in reader.fieldnames or "amount" not in reader.fieldnames:
         raise ReconciliationError(
@@ -58,7 +57,7 @@ def parse_transactions_csv(text):
 
 
 def parse_balances_csv(text):
-    """Mirrors main.py's read_actual_balances, but reads from an in-memory string."""
+    """Reads balance from an in-memory string."""
     reader = csv.DictReader(io.StringIO(text))
     if reader.fieldnames is None or "date" not in reader.fieldnames or "balance" not in reader.fieldnames:
         raise ReconciliationError(
@@ -94,7 +93,7 @@ def run_reconciliation(transactions_text, balances_text):
     summaries = {date: summarize_day(date, significant_days) for date in dates}
 
     latest_date = dates[-1]
-    total_discrepancy = list(cumulative_discrepancy.values())[-1]  # matches main.py exactly
+    total_discrepancy = list(cumulative_discrepancy.values())[-1]  
 
     return {
         "dates": dates,
