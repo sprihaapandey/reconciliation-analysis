@@ -160,9 +160,10 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def main():
-    port = int(sys.argv[1]) if len(sys.argv) > 1 else 5050
-    server = ThreadingHTTPServer(("127.0.0.1", port), Handler)
-    print(f"Reconciliation app running at http://127.0.0.1:{port}")
+    port = int(sys.argv[1]) if len(sys.argv) > 1 else int(os.environ.get("PORT", 5050))
+    host = "0.0.0.0" if "PORT" in os.environ else "127.0.0.1"
+    server = ThreadingHTTPServer((host, port), Handler)
+    print(f"Reconciliation app running at http://{host}:{port}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
